@@ -1,0 +1,298 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DE25877415CA0152002657BD /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE25877315CA0152002657BD /* UIKit.framework */; };
+		DE25877615CA0152002657BD /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE25877515CA0152002657BD /* Foundation.framework */; };
+		DE25877815CA0152002657BD /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DE25877715CA0152002657BD /* CoreGraphics.framework */; };
+		DE25877E15CA0152002657BD /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DE25877C15CA0152002657BD /* InfoPlist.strings */; };
+		DE25878015CA0152002657BD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DE25877F15CA0152002657BD /* main.m */; };
+		DE25878415CA0152002657BD /* DIYAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DE25878315CA0152002657BD /* DIYAppDelegate.m */; };
+		DE5C71F815CA01D1006C1567 /* DIYAssetPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5C71F615CA01D1006C1567 /* DIYAssetPickerController.m */; };
+		DE5C720115CA057C006C1567 /* DIYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5C71FF15CA057C006C1567 /* DIYViewController.m */; };
+		DE5C720215CA057C006C1567 /* DIYViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE5C720015CA057C006C1567 /* DIYViewController.xib */; };
+		DEB87F6B15CA34A70080638C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		DE25876F15CA0152002657BD /* DIYAssetPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIYAssetPicker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DE25877315CA0152002657BD /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		DE25877515CA0152002657BD /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DE25877715CA0152002657BD /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		DE25877B15CA0152002657BD /* DIYAssetPicker-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "DIYAssetPicker-Info.plist"; sourceTree = "<group>"; };
+		DE25877D15CA0152002657BD /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DE25877F15CA0152002657BD /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DE25878115CA0152002657BD /* DIYAssetPicker-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DIYAssetPicker-Prefix.pch"; sourceTree = "<group>"; };
+		DE25878215CA0152002657BD /* DIYAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DIYAppDelegate.h; sourceTree = "<group>"; };
+		DE25878315CA0152002657BD /* DIYAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DIYAppDelegate.m; sourceTree = "<group>"; };
+		DE5C71F515CA01D1006C1567 /* DIYAssetPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYAssetPickerController.h; sourceTree = "<group>"; };
+		DE5C71F615CA01D1006C1567 /* DIYAssetPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYAssetPickerController.m; sourceTree = "<group>"; };
+		DE5C71FE15CA057C006C1567 /* DIYViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DIYViewController.h; sourceTree = "<group>"; };
+		DE5C71FF15CA057C006C1567 /* DIYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYViewController.m; sourceTree = "<group>"; };
+		DE5C720015CA057C006C1567 /* DIYViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DIYViewController.xib; sourceTree = "<group>"; };
+		DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DE25876C15CA0152002657BD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEB87F6B15CA34A70080638C /* AssetsLibrary.framework in Frameworks */,
+				DE25877415CA0152002657BD /* UIKit.framework in Frameworks */,
+				DE25877615CA0152002657BD /* Foundation.framework in Frameworks */,
+				DE25877815CA0152002657BD /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DE25876415CA0152002657BD = {
+			isa = PBXGroup;
+			children = (
+				DE5C71F415CA01D1006C1567 /* DIYAssetPicker */,
+				DE25877915CA0152002657BD /* Example */,
+				DE25877215CA0152002657BD /* Frameworks */,
+				DE25877015CA0152002657BD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DE25877015CA0152002657BD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DE25876F15CA0152002657BD /* DIYAssetPicker.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DE25877215CA0152002657BD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */,
+				DE25877315CA0152002657BD /* UIKit.framework */,
+				DE25877515CA0152002657BD /* Foundation.framework */,
+				DE25877715CA0152002657BD /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DE25877915CA0152002657BD /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				DE25878215CA0152002657BD /* DIYAppDelegate.h */,
+				DE25878315CA0152002657BD /* DIYAppDelegate.m */,
+				DE5C71FE15CA057C006C1567 /* DIYViewController.h */,
+				DE5C71FF15CA057C006C1567 /* DIYViewController.m */,
+				DE5C720015CA057C006C1567 /* DIYViewController.xib */,
+				DE25877A15CA0152002657BD /* Supporting Files */,
+			);
+			name = Example;
+			path = DIYAssetPicker;
+			sourceTree = "<group>";
+		};
+		DE25877A15CA0152002657BD /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DE25877B15CA0152002657BD /* DIYAssetPicker-Info.plist */,
+				DE25877C15CA0152002657BD /* InfoPlist.strings */,
+				DE25877F15CA0152002657BD /* main.m */,
+				DE25878115CA0152002657BD /* DIYAssetPicker-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DE5C71F415CA01D1006C1567 /* DIYAssetPicker */ = {
+			isa = PBXGroup;
+			children = (
+				DE5C71F515CA01D1006C1567 /* DIYAssetPickerController.h */,
+				DE5C71F615CA01D1006C1567 /* DIYAssetPickerController.m */,
+			);
+			name = DIYAssetPicker;
+			path = ../DIYAssetPicker;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DE25876E15CA0152002657BD /* DIYAssetPicker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DE25878715CA0152002657BD /* Build configuration list for PBXNativeTarget "DIYAssetPicker" */;
+			buildPhases = (
+				DE25876B15CA0152002657BD /* Sources */,
+				DE25876C15CA0152002657BD /* Frameworks */,
+				DE25876D15CA0152002657BD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DIYAssetPicker;
+			productName = DIYAssetPicker;
+			productReference = DE25876F15CA0152002657BD /* DIYAssetPicker.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DE25876615CA0152002657BD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = DIY;
+				LastUpgradeCheck = 0440;
+				ORGANIZATIONNAME = "Jonathan Beilin";
+			};
+			buildConfigurationList = DE25876915CA0152002657BD /* Build configuration list for PBXProject "DIYAssetPicker" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DE25876415CA0152002657BD;
+			productRefGroup = DE25877015CA0152002657BD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DE25876E15CA0152002657BD /* DIYAssetPicker */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DE25876D15CA0152002657BD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE25877E15CA0152002657BD /* InfoPlist.strings in Resources */,
+				DE5C720215CA057C006C1567 /* DIYViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DE25876B15CA0152002657BD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE25878015CA0152002657BD /* main.m in Sources */,
+				DE25878415CA0152002657BD /* DIYAppDelegate.m in Sources */,
+				DE5C71F815CA01D1006C1567 /* DIYAssetPickerController.m in Sources */,
+				DE5C720115CA057C006C1567 /* DIYViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		DE25877C15CA0152002657BD /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DE25877D15CA0152002657BD /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DE25878515CA0152002657BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		DE25878615CA0152002657BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DE25878815CA0152002657BD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DIYAssetPicker/DIYAssetPicker-Prefix.pch";
+				INFOPLIST_FILE = "DIYAssetPicker/DIYAssetPicker-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DE25878915CA0152002657BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "DIYAssetPicker/DIYAssetPicker-Prefix.pch";
+				INFOPLIST_FILE = "DIYAssetPicker/DIYAssetPicker-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DE25876915CA0152002657BD /* Build configuration list for PBXProject "DIYAssetPicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE25878515CA0152002657BD /* Debug */,
+				DE25878615CA0152002657BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DE25878715CA0152002657BD /* Build configuration list for PBXNativeTarget "DIYAssetPicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DE25878815CA0152002657BD /* Debug */,
+				DE25878915CA0152002657BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DE25876615CA0152002657BD /* Project object */;
+}
