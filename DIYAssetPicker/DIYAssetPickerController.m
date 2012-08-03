@@ -77,13 +77,25 @@
     [self releaseObjects];
 }
 
+#pragma mark - Rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return true;
 }
 
-
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    if ( (orientation == UIInterfaceOrientationLandscapeLeft) ||
+        (orientation == UIInterfaceOrientationLandscapeRight)) {
+        self.header.frame = CGRectMake(0, 0, 480, 44);
+    }
+    else {
+        self.header.frame = CGRectMake(0, 0, 320, 44);
+    }
+    
+    [self.assetsTable reloadData];
+}
 
 #pragma mark - UI
 
