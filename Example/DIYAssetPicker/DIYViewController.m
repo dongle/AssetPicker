@@ -8,21 +8,25 @@
 
 #import "DIYViewController.h"
 
-@interface DIYViewController ()
-
-@end
-
 @implementation DIYViewController
 
-@synthesize picker = _picker;
+@synthesize diyPicker = _diyPicker;
+//@synthesize uiPicker = _uiPicker;
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    _picker = [[DIYAssetPickerController alloc] init];
-    self.picker.delegate = self;
+    _diyPicker = [[DIYAssetPickerController alloc] init];
+    self.diyPicker.delegate = self;
+
+    /*
+    _uiPicker = [[UIImagePickerController alloc] init];
+    self.uiPicker.delegate = self;
+    self.uiPicker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:
+                                UIImagePickerControllerSourceTypeCamera];
+     */
 }
 
 - (void)viewDidUnload
@@ -39,7 +43,8 @@
 #pragma mark - UI
 -(IBAction)assetPickerButtonSelected:(id)sender
 {
-    [self presentModalViewController:self.picker animated:true];
+    [self presentModalViewController:self.diyPicker animated:true];
+    //[self presentModalViewController:self.uiPicker animated:true];
 }
 
 #pragma mark - DIYAssetPickerController protocol
@@ -59,10 +64,22 @@
 
 }
 
+#pragma mark - UIImagePickerController protocol
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    NSLog(@"asset info: %@", info);
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    
+}
+
 #pragma mark - Dealloc
 - (void)releaseObjects
 {
-    [_picker release]; _picker = nil;
+    [_diyPicker release]; _diyPicker = nil;
+//    [_uiPicker release]; _uiPicker = nil;
 }
 
 - (void)dealloc
