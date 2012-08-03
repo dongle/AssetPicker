@@ -226,13 +226,20 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
 - (void)getAssetFromGesture:(UIGestureRecognizer *)gesture {
     UIImageView *view = (UIImageView *)[gesture view];
     ALAsset *asset = [self.allAssets objectAtIndex:[view tag]];
-    NSLog(@"asset metadata: %@", [asset defaultRepresentation].metadata);
-    NSDictionary *info = @{ UIImagePickerControllerMediaType : @"object",
-                            UIImagePickerControllerOriginalImage : @"object",
-                            UIImagePickerControllerMediaURL : @"",
-                            UIImagePickerControllerReferenceURL : @"",
-                            UIImagePickerControllerMediaMetadata : @""
+    BOOL isPhoto = [asset valueForProperty:ALAssetPropertyType] == ALAssetTypePhoto;
+
+    NSDictionary *info;
+    if (isPhoto) {
+        info = @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
+                  UIImagePickerControllerOriginalImage : [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1 orientation:(UIImageOrientation)[[asset defaultRepresentation] orientation]],
+                  UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
                           };
+    }
+    else {
+        info = @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
+                  UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
+                    };
+    }
     
     [self.delegate pickerDidFinishPickingWithInfo:info];
 }
