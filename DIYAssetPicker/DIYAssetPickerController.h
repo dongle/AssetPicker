@@ -23,9 +23,12 @@
 
 @class DIYAssetPickerController;
 
-@protocol DIYAssetPickerControllerDelegate
+@protocol DIYAssetPickerControllerDelegate <NSObject>
+@required
 - (void)pickerDidCancel:(DIYAssetPickerController *)picker;
 - (void)pickerDidFinishPickingWithInfo:(NSDictionary *)info;
+@optional
+- (void)pickerDidFinishLoading;
 @end
 
 // Should these be masks? Not enough options to make a big difference
@@ -51,7 +54,7 @@ typedef enum {
 }
 
 #pragma mark - Delegate
-@property (assign) id delegate;
+@property (assign) id<DIYAssetPickerControllerDelegate> delegate;
 
 #pragma mark - UI
 // transparent top bar with title?
