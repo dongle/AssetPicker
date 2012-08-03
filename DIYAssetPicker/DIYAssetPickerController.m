@@ -196,7 +196,29 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
              }];
          }
          failureBlock:^(NSError *error) {
-            // TODO handle the case where the user has denied access
+             NSInteger code = [error code];
+             if (code == ALAssetsLibraryAccessUserDeniedError || code == ALAssetsLibraryAccessGloballyDeniedError) {
+                 UIAlertView *alert = [[UIAlertView alloc]
+                                       initWithTitle:@"Error"
+                                       message:@"Since photos may have location data attached, you must approve location data access to use the picker."
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+                 [alert show];
+                 [alert release];
+             }
+             else {
+                 UIAlertView *alert = [[UIAlertView alloc]
+                                       initWithTitle:@"Error"
+                                       message:@"IDK, dude, something's busted."
+                                       delegate:nil
+                                       cancelButtonTitle:@"OK"
+                                       otherButtonTitles:nil];
+                 [alert show];
+                 [alert release];
+             }
+             
+             [self.delegate pickerDidCancel:self];
          }];
 }
 
