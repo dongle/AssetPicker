@@ -10,7 +10,7 @@
 
 @interface DIYAssetPickerController ()
 @property (nonatomic, retain) ALAssetsLibrary *assetsLibrary;
-@property (nonatomic, copy) NSMutableArray *allAssets;
+@property (nonatomic, retain) NSMutableArray *allAssets;
 @property (nonatomic, retain) UITableView *assetsTable;
 @property (nonatomic, retain) UINavigationBar *header;
 @end
@@ -38,6 +38,12 @@
     // Setup
     [self setTitle:@"Asset Picker"];
     
+    // Asset library & array
+    self.assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
+    
+    self.allAssets = [[NSMutableArray alloc] init];
+    [self getAssetsArray];
+    
     // Header
     CGRect headerFrame = self.view.bounds;
     _header = [[UINavigationBar alloc] initWithFrame:headerFrame];
@@ -49,11 +55,6 @@
     [self.header setItems:@[ self.navigationItem ]];
     [self.view addSubview:self.header];
     
-    // Asset library & array
-    self.assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
-    
-    self.allAssets = [self getAssetsArray];
-    
     // Asset Table
     _assetsTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.assetsTable setContentInset:UIEdgeInsetsMake(self.header.frame.size.height, 0, 0, 0)];
@@ -62,7 +63,11 @@
     [self.assetsTable setDataSource:self];
     [self.assetsTable setSeparatorColor:[UIColor clearColor]];
     [self.assetsTable setAllowsSelection:NO];
-    //[self.view addSubview:self.assetsTable];
+    [self.assetsTable reloadData];
+    //self.assetsTable.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
+    [self.view addSubview:self.assetsTable];
+    
+    [self.view bringSubviewToFront:self.header];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -87,19 +92,16 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    /*
-    if(!photos) {
+    if(!self.allAssets) {
         return 0;
     }
-    return ceil([photos count]/((float)THUMB_COUNT_PER_ROW));
-     */
-    
-    return 0;
+    NSLog(@"asset count: %d", [self.allAssets count]);
+    return ceil([self.allAssets count]/((float)THUMB_COUNT_PER_ROW));
 }
 
+// Borrowed from PhotoPickerPlus
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: borrowed code; refactor if necessary
     static NSString *CellIdentifier = @"Cell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -136,32 +138,75 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
+// Borrowed heavily from PhotoPickerPlus
 - (UIView *)tableView:(UITableView *)tableView viewForIndexPath:(NSIndexPath *)indexPath
 {
-    // TODO: put actual stuff in here
+int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
     
-    return [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetsTable.frame.size.width, [self tableView:self.assetsTable heightForRowAtIndexPath:indexPath])] autorelease];
+    UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetsTable.frame.size.width, [self tableView:self.assetsTable heightForRowAtIndexPath:indexPath])] autorelease];
+    int index = indexPath.row * (THUMB_COUNT_PER_ROW);
+    int maxIndex = index + ((THUMB_COUNT_PER_ROW)-1);
+    CGRect rect = CGRectMake(initialThumbOffset, THUMB_SPACING/2, THUMB_SIZE, THUMB_SIZE);
+    int x = THUMB_COUNT_PER_ROW;
+    if (maxIndex >= [self.allAssets count]) {
+        x = x - (maxIndex - [self.allAssets count]) - 1;
+    }
+    
+    for (int i=0; i<x; i++) {
+        ALAsset *asset = [self.allAssets objectAtIndex:index+i];
+        UIImageView *image = [[[UIImageView alloc] initWithFrame:rect] autorelease];
+        [image setTag:index+i];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(objectTappedWithGesture:)];
+        [image addGestureRecognizer:tap];
+        [tap release];
+        [image setUserInteractionEnabled:YES];
+        [image setImage:[UIImage imageWithCGImage:[asset thumbnail]]];
+        [view addSubview:image];
+
+        rect = CGRectMake((rect.origin.x+THUMB_SIZE+THUMB_SPACING), rect.origin.y, rect.size.width, rect.size.height);
+    }
+    return view;
 }
 
 #pragma mark - Utility
 
-- (NSArray *)getAssetsArray {
-    NSMutableArray *assets = [NSMutableArray array];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self.assetsLibrary
+- (void)getAssetsArray {
+    [self.assetsLibrary
          enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
          usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-             [group enumerateAssetsUsingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                 if (result) {
+             [group setAssetsFilter:[ALAssetsFilter allAssets]];
+             [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+                 if (result != nil) {
                      [self.allAssets addObject:result];
+                 }
+                 else {
+                     [self.assetsTable reloadData];
+                     if ([self.delegate respondsToSelector:@selector(pickerDidFinishLoading)]) {
+                         [self.delegate pickerDidFinishLoading];
+                     }
                  }
              }];
          }
          failureBlock:^(NSError *error) {
-             // This is where I handle the case where the user has denied access
+            // TODO handle the case where the user has denied access
          }];
-    });
-    return assets;
+}
+
+// Thanks to PhotoPickerPlus for being rad
+- (void)getAssetFromGesture:(UIGestureRecognizer *)gesture {
+    UIImageView *view = (UIImageView *)[gesture view];
+    ALAsset *asset = [self.allAssets objectAtIndex:[view tag]];
+    NSLog(@"asset metadata: %@", [asset defaultRepresentation].metadata);
+    NSDictionary *info = @{ UIImagePickerControllerMediaType : @"object",
+                            UIImagePickerControllerOriginalImage : @"object",
+                            UIImagePickerControllerEditedImage : @"",
+                            UIImagePickerControllerCropRect : @"",
+                            UIImagePickerControllerMediaURL : @"",
+                            UIImagePickerControllerReferenceURL : @"",
+                            UIImagePickerControllerMediaMetadata : @""
+                          };
+    
+//    [self.delegate pickerDidFinishPickingWithInfo:info];
 }
 
 #pragma mark - Dealloc
