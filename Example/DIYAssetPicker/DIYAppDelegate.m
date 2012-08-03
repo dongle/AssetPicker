@@ -11,12 +11,12 @@
 @implementation DIYAppDelegate
 
 @synthesize viewController = _viewController;
-@synthesize assetPicker = _assetPicker;
+//@synthesize assetPicker = _assetPicker;
 
 - (void)dealloc
 {
     [_viewController release];
-    [_assetPicker release];
+//    [_assetPicker release];
     [_window release];
     [super dealloc];
 }
@@ -27,14 +27,12 @@
 
     self.window.backgroundColor = [UIColor whiteColor];
     
-    /*
-    _viewController = [[DIYViewController alloc] init];
-    [self.viewController presentModalViewController:self.assetPicker animated:YES];
-    self.window.rootViewController = self.viewController;
-    */
+//    _assetPicker = [[DIYAssetPickerController alloc] init];
+//    self.window.rootViewController = self.assetPicker;
     
-    _assetPicker = [[DIYAssetPickerController alloc] init];
-    self.window.rootViewController = self.assetPicker;
+    
+    _viewController = [[DIYViewController alloc] init];
+    self.window.rootViewController = self.viewController;
 
     [self.window makeKeyAndVisible];
     return YES;

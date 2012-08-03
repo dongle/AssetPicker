@@ -14,6 +14,6 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) DIYViewController *viewController;
-@property (strong, nonatomic) DIYAssetPickerController *assetPicker;
+//@property (strong, nonatomic) DIYAssetPickerController *assetPicker;
 
 @end

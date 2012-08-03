@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DIYAssetPickerController.h"
 
-@interface DIYViewController : UIViewController
+@interface DIYViewController : UIViewController <DIYAssetPickerControllerDelegate>
+
+@property (nonatomic, retain) DIYAssetPickerController *picker;
+
+- (IBAction)assetPickerButtonSelected:(id)sender;
 
 @end

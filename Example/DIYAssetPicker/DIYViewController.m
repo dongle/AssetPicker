@@ -14,31 +14,61 @@
 
 @implementation DIYViewController
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+@synthesize picker = _picker;
+
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
+    _picker = [[DIYAssetPickerController alloc] init];
+    self.picker.delegate = self;
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [self releaseObjects];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - UI
+-(IBAction)assetPickerButtonSelected:(id)sender
+{
+    [self presentModalViewController:self.picker animated:true];
+}
+
+#pragma mark - DIYAssetPickerController protocol
+- (void)pickerDidCancel:(DIYAssetPickerController *)picker
+{
+    [self dismissModalViewControllerAnimated:true];
+}
+
+- (void)pickerDidFinishPickingWithInfo:(NSDictionary *)info
+{
+    [self dismissModalViewControllerAnimated:true];
+    NSLog(@"asset info: %@", info);
+}
+
+- (void)pickerDidFinishLoading
+{
+
+}
+
+#pragma mark - Dealloc
+- (void)releaseObjects
+{
+    [_picker release]; _picker = nil;
+}
+
+- (void)dealloc
+{
+    [self releaseObjects];
+    [super dealloc];
 }
 
 @end
