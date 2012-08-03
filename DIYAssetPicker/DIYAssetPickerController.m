@@ -156,7 +156,7 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
         ALAsset *asset = [self.allAssets objectAtIndex:index+i];
         UIImageView *image = [[[UIImageView alloc] initWithFrame:rect] autorelease];
         [image setTag:index+i];
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(objectTappedWithGesture:)];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(getAssetFromGesture:)];
         [image addGestureRecognizer:tap];
         [tap release];
         [image setUserInteractionEnabled:YES];
@@ -206,7 +206,7 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
                             UIImagePickerControllerMediaMetadata : @""
                           };
     
-//    [self.delegate pickerDidFinishPickingWithInfo:info];
+    [self.delegate pickerDidFinishPickingWithInfo:info];
 }
 
 #pragma mark - Dealloc
