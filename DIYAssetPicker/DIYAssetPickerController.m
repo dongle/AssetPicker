@@ -55,7 +55,7 @@
     [self.header setItems:@[ self.navigationItem ]];
     [self.view addSubview:self.header];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)];
     
     // Asset Table
     _assetsTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -229,8 +229,6 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
     NSLog(@"asset metadata: %@", [asset defaultRepresentation].metadata);
     NSDictionary *info = @{ UIImagePickerControllerMediaType : @"object",
                             UIImagePickerControllerOriginalImage : @"object",
-                            UIImagePickerControllerEditedImage : @"",
-                            UIImagePickerControllerCropRect : @"",
                             UIImagePickerControllerMediaURL : @"",
                             UIImagePickerControllerReferenceURL : @"",
                             UIImagePickerControllerMediaMetadata : @""
