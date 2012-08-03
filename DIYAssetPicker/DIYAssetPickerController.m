@@ -55,6 +55,8 @@
     [self.header setItems:@[ self.navigationItem ]];
     [self.view addSubview:self.header];
     
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)];
+    
     // Asset Table
     _assetsTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     [self.assetsTable setContentInset:UIEdgeInsetsMake(self.header.frame.size.height, 0, 0, 0)];
@@ -64,7 +66,6 @@
     [self.assetsTable setSeparatorColor:[UIColor clearColor]];
     [self.assetsTable setAllowsSelection:NO];
     [self.assetsTable reloadData];
-    //self.assetsTable.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, 0, 0)] autorelease];
     [self.view addSubview:self.assetsTable];
     
     [self.view bringSubviewToFront:self.header];
@@ -82,6 +83,13 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
  */
+
+#pragma mark - UI
+
+- (void)cancelPicking
+{
+    [self.delegate pickerDidCancel:self];
+}
 
 #pragma mark - UITableViewDelegate
 
