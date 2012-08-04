@@ -116,7 +116,6 @@
     if(!self.allAssets) {
         return 0;
     }
-    NSLog(@"asset count: %d", [self.allAssets count]);
     return ceil([self.allAssets count]/((float)THUMB_COUNT_PER_ROW));
 }
 
@@ -173,7 +172,7 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
         x = x - (maxIndex - [self.allAssets count]) - 1;
     }
     
-    for (int i=0; i<x; i++) {
+    for (int i = 0; i < x; i++) {
         ALAsset *asset = [self.allAssets objectAtIndex:index+i];
         UIImageView *image = [[[UIImageView alloc] initWithFrame:rect] autorelease];
         [image setTag:index+i];

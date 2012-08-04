@@ -56,10 +56,6 @@ typedef enum {
 #pragma mark - Delegate
 @property (assign) id<DIYAssetPickerControllerDelegate> delegate;
 
-#pragma mark - UI
-// transparent top bar with title?
-// blue dismiss button
-
 #pragma mark - Options
 @property (nonatomic, assign) int numberColumns;
 @property (nonatomic, assign) DIYAssetPickerControllerAssetType assetType;
