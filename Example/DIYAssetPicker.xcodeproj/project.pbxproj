@@ -17,6 +17,7 @@
 		DE5C720115CA057C006C1567 /* DIYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DE5C71FF15CA057C006C1567 /* DIYViewController.m */; };
 		DE5C720215CA057C006C1567 /* DIYViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE5C720015CA057C006C1567 /* DIYViewController.xib */; };
 		DEB87F6B15CA34A70080638C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */; };
+		DED20B6A15CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DED20B6915CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		DE5C71FF15CA057C006C1567 /* DIYViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DIYViewController.m; sourceTree = "<group>"; };
 		DE5C720015CA057C006C1567 /* DIYViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DIYViewController.xib; sourceTree = "<group>"; };
 		DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		DED20B6915CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui_icon_tinyvideo@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 		DE5C71F415CA01D1006C1567 /* DIYAssetPicker */ = {
 			isa = PBXGroup;
 			children = (
+				DED20B6915CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png */,
 				DE5C71F515CA01D1006C1567 /* DIYAssetPickerController.h */,
 				DE5C71F615CA01D1006C1567 /* DIYAssetPickerController.m */,
 			);
@@ -171,6 +174,7 @@
 			files = (
 				DE25877E15CA0152002657BD /* InfoPlist.strings in Resources */,
 				DE5C720215CA057C006C1567 /* DIYViewController.xib in Resources */,
+				DED20B6A15CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
