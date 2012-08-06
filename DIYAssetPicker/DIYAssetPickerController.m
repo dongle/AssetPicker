@@ -84,6 +84,11 @@
     return true;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    [self.assetsTable performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:true];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
     UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
     if ( (orientation == UIInterfaceOrientationLandscapeLeft) ||
@@ -93,8 +98,6 @@
     else {
         self.header.frame = CGRectMake(0, 0, 320, 44);
     }
-    
-    [self.assetsTable reloadData];
 }
 
 #pragma mark - UI
