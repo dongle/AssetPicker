@@ -182,6 +182,30 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
         [image setUserInteractionEnabled:YES];
         [image setImage:[UIImage imageWithCGImage:[asset thumbnail]]];
         [view addSubview:image];
+        
+        // Add video info view on video assets
+        if ([[asset valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo]) {
+            UIView *videoBar = [[[UIView alloc] initWithFrame:CGRectMake(0, THUMB_SIZE - 18, THUMB_SIZE, 18)] autorelease];
+            videoBar.backgroundColor = [UIColor blackColor];
+            videoBar.alpha = 0.75f;
+            [view addSubview:videoBar];
+            
+            UIImageView *videoIcon = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ui_icon_tinyvideo@2x.png"]] autorelease];
+            videoIcon.frame = CGRectMake(6, THUMB_SIZE - 13, videoIcon.frame.size.width/2.0f, videoIcon.frame.size.height/2.0f);
+            [view addSubview:videoIcon];
+            
+            NSTimeInterval duration = [[asset valueForProperty:ALAssetPropertyDuration] doubleValue];
+            int minutes = duration/60;
+            int seconds = duration - (minutes * 60);
+            
+            UILabel *lengthLabel = [[[UILabel alloc] initWithFrame:CGRectMake(THUMB_SIZE/2.0f, THUMB_SIZE - 14, (THUMB_SIZE/2.0f) - 6, 12)] autorelease];
+            lengthLabel.text = [NSString stringWithFormat:@"%i:%02i", minutes, seconds];
+            lengthLabel.textAlignment = UITextAlignmentRight;
+            lengthLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:11.0f];
+            lengthLabel.textColor = [UIColor whiteColor];
+            lengthLabel.backgroundColor = [UIColor clearColor];
+            [view addSubview:lengthLabel];
+        }
 
         rect = CGRectMake((rect.origin.x+THUMB_SIZE+THUMB_SPACING), rect.origin.y, rect.size.width, rect.size.height);
     }
