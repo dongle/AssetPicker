@@ -45,17 +45,14 @@
     [self getAssetsArray];
     
     // Header
-    CGRect headerFrame = self.view.bounds;
-    _header = [[UINavigationBar alloc] initWithFrame:headerFrame];
-    headerFrame.size = [self.header sizeThatFits:headerFrame.size];
-    self.header.frame = headerFrame;
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)];
+    
+    _header = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     self.header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     self.header.barStyle = UIBarStyleBlack;
     self.header.translucent = true;
     [self.header setItems:@[ self.navigationItem ]];
     [self.view addSubview:self.header];
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)];
     
     // Asset Table
     _assetsTable = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
@@ -87,17 +84,6 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self.assetsTable performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:true];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
-    if ( (orientation == UIInterfaceOrientationLandscapeLeft) ||
-        (orientation == UIInterfaceOrientationLandscapeRight)) {
-        self.header.frame = CGRectMake(0, 0, 480, 44);
-    }
-    else {
-        self.header.frame = CGRectMake(0, 0, 320, 44);
-    }
 }
 
 #pragma mark - UI
