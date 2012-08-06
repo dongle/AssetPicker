@@ -10,16 +10,17 @@
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
 
+// Thanks to P3:
 #define THUMB_COUNT_PER_ROW ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 6 : 4)
 
 #define MIN_THUMB_SPACING ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 4 : 1)
 
 #define MAX_THUMB_SIZE 100
-//thumb size greater than 100 will cause blurriness adjust greater at own risk.
 
 #define THUMB_SIZE (MIN(floor((self.assetsTable.frame.size.width-(MIN_THUMB_SPACING*(THUMB_COUNT_PER_ROW+1)))/THUMB_COUNT_PER_ROW),MAX_THUMB_SIZE))
 
 #define THUMB_SPACING (MAX(floor((self.assetsTable.frame.size.width-(THUMB_COUNT_PER_ROW*THUMB_SIZE))/(THUMB_COUNT_PER_ROW+1)),MIN_THUMB_SPACING))
+// Endthanks
 
 @class DIYAssetPickerController;
 
@@ -29,15 +30,10 @@
 - (void)pickerDidFinishPickingWithInfo:(NSDictionary *)info;
 @optional
 - (void)pickerDidFinishLoading;
+- (BOOL)shouldPickerAutorotate:(UIInterfaceOrientation)toInterfaceOrientation;
 @end
 
-// Should these be masks? Not enough options to make a big difference
-
-typedef enum {
-    DIYAssetPickerLandscape,
-    DIYAssetPickerPortrait,
-    DIYAssetPickerPortraitLandscape
-} DIYAssetPickerControllerOrientation;
+UIInterfaceOrientation orientation;
 
 typedef enum {
     DIYAssetPickerPhoto,
@@ -59,6 +55,5 @@ typedef enum {
 #pragma mark - Options
 @property (nonatomic, assign) int numberColumns;
 @property (nonatomic, assign) DIYAssetPickerControllerAssetType assetType;
-@property (nonatomic, assign) DIYAssetPickerControllerOrientation validOrientation;
 
 @end

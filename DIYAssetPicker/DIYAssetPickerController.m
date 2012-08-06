@@ -25,9 +25,6 @@
 @synthesize delegate = _delegate;
 @synthesize numberColumns = _numberColumns;
 @synthesize assetType = _assetType;
-@synthesize validOrientation = _validOrientation;
-
-#pragma mark - Init
 
 #pragma mark - View Lifecycle
 
@@ -70,9 +67,14 @@
 
 #pragma mark - Rotation
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    return true;
+    if ([self.delegate respondsToSelector:@selector(shouldPickerAutorotate:)]) {
+        return [self.delegate shouldPickerAutorotate:toInterfaceOrientation];
+    }
+    else {
+        return false;
+    }
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -102,28 +104,26 @@
     return ceil([self.allAssets count]/((float)THUMB_COUNT_PER_ROW));
 }
 
-// Borrowed from PhotoPickerPlus
-
+// Thanks to PhotoPickerPlus:
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"PickerCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
-    [cell.textLabel setText:@" "];
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
         UIView *v = [self tableView:tableView viewForIndexPath:indexPath];
         dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if(v){
-                for(UIView *view in cell.contentView.subviews){
+            if (v) {
+                for (UIView *view in cell.contentView.subviews){
                     [view removeFromSuperview];
                 }
                 [cell.contentView addSubview:v];
             }
-            else{
+            else {
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
                 [cell setEditingAccessoryType:UITableViewCellAccessoryNone];
             }
@@ -132,6 +132,7 @@
     
     return cell;
 }
+//Endthanks
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -143,8 +144,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-// Borrowed heavily from PhotoPickerPlus
-
+// Thanks to PhotoPickerPlus:
 - (UIView *)tableView:(UITableView *)tableView viewForIndexPath:(NSIndexPath *)indexPath
 {
 int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
@@ -174,11 +174,11 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
             UIView *videoBar = [[[UIView alloc] initWithFrame:CGRectMake(0, THUMB_SIZE - 18, THUMB_SIZE, 18)] autorelease];
             videoBar.backgroundColor = [UIColor blackColor];
             videoBar.alpha = 0.75f;
-            [view addSubview:videoBar];
+            [image addSubview:videoBar];
             
             UIImageView *videoIcon = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ui_icon_tinyvideo@2x.png"]] autorelease];
             videoIcon.frame = CGRectMake(6, THUMB_SIZE - 13, videoIcon.frame.size.width/2.0f, videoIcon.frame.size.height/2.0f);
-            [view addSubview:videoIcon];
+            [image addSubview:videoIcon];
             
             NSTimeInterval duration = [[asset valueForProperty:ALAssetPropertyDuration] doubleValue];
             int minutes = duration/60;
@@ -192,7 +192,7 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
                     lengthLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:11.0f];
                     lengthLabel.textColor = [UIColor whiteColor];
                     lengthLabel.backgroundColor = [UIColor clearColor];
-                    [view addSubview:lengthLabel];
+                    [image addSubview:lengthLabel];
                 });
             });
         }
@@ -201,6 +201,7 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
     }
     return view;
 }
+// Endthanks
 
 #pragma mark - Utility
 
@@ -248,7 +249,6 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
          }];
 }
 
-// Thanks to PhotoPickerPlus for being rad
 - (void)getAssetFromGesture:(UIGestureRecognizer *)gesture {
     UIImageView *view = (UIImageView *)[gesture view];
     ALAsset *asset = [self.allAssets objectAtIndex:[view tag]];
@@ -284,8 +284,8 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
 
 - (void)dealloc
 {
-    [super dealloc];
     [self releaseObjects];
+    [super dealloc];
 }
 
 @end
