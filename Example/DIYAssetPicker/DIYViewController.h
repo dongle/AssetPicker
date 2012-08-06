@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DIYAssetPickerController.h"
 
-@interface DIYViewController : UIViewController <DIYAssetPickerControllerDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface DIYViewController : UIViewController <DIYAssetPickerControllerDelegate>
 
 - (IBAction)assetPickerButtonSelected:(id)sender;
 

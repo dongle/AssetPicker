@@ -53,19 +53,12 @@
 
 - (void)pickerDidFinishLoading
 {
-
+    //
 }
 
-#pragma mark - UIImagePickerController protocol
-
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+- (BOOL)shouldPickerAutorotate:(UIInterfaceOrientation)toInterfaceOrientation
 {
-    NSLog(@"asset info: %@", info);
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    
+    return [self shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
 }
 
 #pragma mark - Dealloc
