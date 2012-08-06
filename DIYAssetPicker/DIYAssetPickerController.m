@@ -68,12 +68,6 @@
     [self.view bringSubviewToFront:self.header];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [super viewDidDisappear:animated];
-    [self releaseObjects];
-}
-
 #pragma mark - Rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -291,6 +285,7 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
 - (void)dealloc
 {
     [super dealloc];
+    [self releaseObjects];
 }
 
 @end
