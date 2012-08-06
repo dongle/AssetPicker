@@ -120,9 +120,10 @@
 }
 
 // Borrowed from PhotoPickerPlus
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"PickerCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -145,6 +146,7 @@
             }
         });
     });
+    
     return cell;
 }
 
@@ -159,6 +161,7 @@
 }
 
 // Borrowed heavily from PhotoPickerPlus
+
 - (UIView *)tableView:(UITableView *)tableView viewForIndexPath:(NSIndexPath *)indexPath
 {
 int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
@@ -198,13 +201,17 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
             int minutes = duration/60;
             int seconds = duration - (minutes * 60);
             
-            UILabel *lengthLabel = [[[UILabel alloc] initWithFrame:CGRectMake(THUMB_SIZE/2.0f, THUMB_SIZE - 14, (THUMB_SIZE/2.0f) - 6, 12)] autorelease];
-            lengthLabel.text = [NSString stringWithFormat:@"%i:%02i", minutes, seconds];
-            lengthLabel.textAlignment = UITextAlignmentRight;
-            lengthLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:11.0f];
-            lengthLabel.textColor = [UIColor whiteColor];
-            lengthLabel.backgroundColor = [UIColor clearColor];
-            [view addSubview:lengthLabel];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    UILabel *lengthLabel = [[[UILabel alloc] initWithFrame:CGRectMake(THUMB_SIZE/2.0f, THUMB_SIZE - 14, (THUMB_SIZE/2.0f) - 6, 12)] autorelease];
+                    lengthLabel.text = [NSString stringWithFormat:@"%i:%02i", minutes, seconds];
+                    lengthLabel.textAlignment = UITextAlignmentRight;
+                    lengthLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:11.0f];
+                    lengthLabel.textColor = [UIColor whiteColor];
+                    lengthLabel.backgroundColor = [UIColor clearColor];
+                    [view addSubview:lengthLabel];
+                });
+            });
         }
 
         rect = CGRectMake((rect.origin.x+THUMB_SIZE+THUMB_SPACING), rect.origin.y, rect.size.width, rect.size.height);
