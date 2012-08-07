@@ -3,7 +3,7 @@
 //  DIYAssetPicker
 //
 //  Created by Jonathan Beilin on 7/30/12.
-//  Copyright (c) 2012 Jonathan Beilin. All rights reserved.
+//  Copyright (c) 2012 DIY, Co. All rights reserved.
 //
 
 #import "DIYAssetPickerController.h"
