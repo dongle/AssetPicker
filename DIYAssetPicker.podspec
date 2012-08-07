@@ -8,4 +8,5 @@ Pod::Spec.new do |s|
   s.source   = { :git => 'https://github.com/dongle/AssetPicker.git', :tag => 'v0.1.0' }
   s.platform = :ios
   s.source_files = 'DIYAssetPicker'
+  s.framework = 'UIKit', 'AssetsLibrary', 'Foundation', 'CoreGraphics'
 end
