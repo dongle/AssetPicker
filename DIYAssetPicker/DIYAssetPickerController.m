@@ -23,8 +23,6 @@
 @synthesize header = _header;
 
 @synthesize delegate = _delegate;
-@synthesize numberColumns = _numberColumns;
-@synthesize assetType = _assetType;
 
 #pragma mark - View Lifecycle
 
@@ -38,11 +36,11 @@
     // Asset library & array
     self.assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
     
-    self.allAssets = [[NSMutableArray alloc] init];
+    _allAssets = [[NSMutableArray alloc] init];
     [self getAssetsArray];
     
     // Header
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)];
+    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)] autorelease];
     
     _header = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     self.header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -274,12 +272,11 @@ int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(
 
 - (void)releaseObjects
 {
+    _delegate = nil;
     [_allAssets release]; _allAssets = nil;
     [_assetsLibrary release]; _assetsLibrary = nil;
     [_assetsTable release]; _assetsTable = nil;
     [_header release]; _header = nil;
-    
-    _delegate = nil;
 }
 
 - (void)dealloc
