@@ -52,10 +52,4 @@ typedef enum {
 #pragma mark - Delegate
 @property (assign) id<DIYAssetPickerControllerDelegate> delegate;
 
-#pragma mark - Options
-/*
-@property (nonatomic, assign) int numberColumns;
-@property (nonatomic, assign) DIYAssetPickerControllerAssetType assetType;
-*/
-
 @end

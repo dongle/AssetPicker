@@ -145,7 +145,7 @@
 // Thanks to PhotoPickerPlus:
 - (UIView *)tableView:(UITableView *)tableView viewForIndexPath:(NSIndexPath *)indexPath
 {
-int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
+    int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
     
     UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetsTable.frame.size.width, [self tableView:self.assetsTable heightForRowAtIndexPath:indexPath])] autorelease];
     int index = indexPath.row * (THUMB_COUNT_PER_ROW);
