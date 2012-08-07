@@ -41,3 +41,4 @@ ARC is not supported at this time ;_;
 
 ## Credits
 Brandon Coston did some smart stuff in [PhotoPickerPlus](https://github.com/chute/photo-picker-plus) to create a gridded table view. I totally copped some ideas from that project.
+Andrew Sliwinski reviewed the code and pushed me to make it better.
