@@ -24,6 +24,16 @@
 
 @synthesize delegate = _delegate;
 
+#pragma mark - Init
+
+- (id)init
+{
+    if (self = [super init]) {
+        self.assetType = DIYAssetPickerPhotoVideo;
+    }
+    return self;
+}
+
 #pragma mark - View Lifecycle
 
 - (void)viewDidLoad
@@ -222,13 +232,32 @@
 }
 // Endthanks
 
+#pragma mark - Overridden setters and getters
+
+- (void)setAssetType:(DIYAssetPickerControllerAssetType)assetType
+{
+    self->_assetType = assetType;
+    [self getAssetsArray];
+    [self.assetsTable reloadData];
+}
+
 #pragma mark - Utility
 
 - (void)getAssetsArray {
+    [self.assetsArray removeAllObjects];
+    
     [self.assetsLibrary
          enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
          usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-             [group setAssetsFilter:[ALAssetsFilter allAssets]];
+             if (self.assetType == DIYAssetPickerPhoto) {
+                 [group setAssetsFilter:[ALAssetsFilter allPhotos]];
+             }
+             else if (self.assetType == DIYAssetPickerVideo) {
+                 [group setAssetsFilter:[ALAssetsFilter allVideos]];
+             }
+             else {
+                 [group setAssetsFilter:[ALAssetsFilter allAssets]];
+             }
              [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
                  if (result != nil) {
                      [self.assetsArray addObject:result];

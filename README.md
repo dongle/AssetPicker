@@ -28,6 +28,8 @@ picker.delegate = self;
 ## Properties
 ```objective-c
 @property (assign) id<DIYAssetPickerControllerDelegate> delegate;
+// Set assetType to show only photos, only videos, or both. Defaults to both
+@property (nonatomic, assign) DIYAssetPickerControllerAssetType assetType;
 ```
 
 ## ARC
