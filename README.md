@@ -1,12 +1,11 @@
 ## AssetPicker
-#### AssetPicking … 
 
 DIYAssetPicker is an almost drop-in replacement for UIImagePickerController. It works in all screen orientations and it doesn't leak memory all over.
 
-CAVEATS:
+#### CAVEATS:
 - UIImagePickerController returns a filesystem path for videos. I couldn't figure out how to get that path; StackOverflow suggests that it is impossible without using private APIs.
 
-TO DO:
+#### TO DO:
 - The property assetType is intended to tell the AssetPicker to pull only certain types of assets. It currently does nothing.
 - The property numberColumns also does not currently do anything.
 
