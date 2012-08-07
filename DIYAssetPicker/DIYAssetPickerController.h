@@ -44,7 +44,7 @@ typedef enum {
 @interface DIYAssetPickerController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
     @private ALAssetsLibrary *_assetsLibrary;
-    @private NSMutableArray *_allAssets;
+    @private NSMutableArray *_assetsArray;
     @private UITableView *_assetsTable;
     @private UINavigationBar *_header;
 }

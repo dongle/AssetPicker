@@ -10,7 +10,7 @@
 
 @interface DIYAssetPickerController ()
 @property (nonatomic, retain) ALAssetsLibrary *assetsLibrary;
-@property (nonatomic, retain) NSMutableArray *allAssets;
+@property (nonatomic, retain) NSMutableArray *assetsArray;
 @property (nonatomic, retain) UITableView *assetsTable;
 @property (nonatomic, retain) UINavigationBar *header;
 @end
@@ -18,7 +18,7 @@
 @implementation DIYAssetPickerController
 
 @synthesize assetsLibrary = _assetsLibrary;
-@synthesize allAssets = _allAssets;
+@synthesize assetsArray = _assetsArray;
 @synthesize assetsTable = _assetsTable;
 @synthesize header = _header;
 
@@ -36,7 +36,7 @@
     // Asset library & array
     self.assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
     
-    _allAssets = [[NSMutableArray alloc] init];
+    _assetsArray = [[NSMutableArray alloc] init];
     [self getAssetsArray];
     
     // Header
@@ -96,10 +96,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(!self.allAssets) {
+    if(!self.assetsArray) {
         return 0;
     }
-    return ceil([self.allAssets count]/((float)THUMB_COUNT_PER_ROW));
+    return ceil([self.assetsArray count]/((float)THUMB_COUNT_PER_ROW));
 }
 
 // Thanks to PhotoPickerPlus:
@@ -145,43 +145,64 @@
 // Thanks to PhotoPickerPlus:
 - (UIView *)tableView:(UITableView *)tableView viewForIndexPath:(NSIndexPath *)indexPath
 {
-    int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
-    
+    // This is the view that will be returned as the contentView for each cell
     UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetsTable.frame.size.width, [self tableView:self.assetsTable heightForRowAtIndexPath:indexPath])] autorelease];
+    
+    // Layout variables
+    int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
+    CGRect rect = CGRectMake(initialThumbOffset, THUMB_SPACING/2, THUMB_SIZE, THUMB_SIZE);
+    
+    // Range variables
     int index = indexPath.row * (THUMB_COUNT_PER_ROW);
     int maxIndex = index + ((THUMB_COUNT_PER_ROW)-1);
-    CGRect rect = CGRectMake(initialThumbOffset, THUMB_SPACING/2, THUMB_SIZE, THUMB_SIZE);
     int x = THUMB_COUNT_PER_ROW;
-    if (maxIndex >= [self.allAssets count]) {
-        x = x - (maxIndex - [self.allAssets count]) - 1;
+    if (maxIndex >= [self.assetsArray count]) {
+        x = x - (maxIndex - [self.assetsArray count]) - 1;
     }
     
+    // Add x thumbnails to the view
     for (int i = 0; i < x; i++) {
-        ALAsset *asset = [self.allAssets objectAtIndex:index+i];
+        
+        ALAsset *asset = [self.assetsArray objectAtIndex:index+i];
+        
+        // Make a UIImageView for the thumbnail image; attach thumbnail image
         UIImageView *image = [[[UIImageView alloc] initWithFrame:rect] autorelease];
+        [image setImage:[UIImage imageWithCGImage:[asset thumbnail]]];
+        
+        // Set a tag on the imageView so it can be identified later
+        // tag corresponds to placement in the assetsArray
+        // Also have the imageView listen for taps
         [image setTag:index+i];
+        [image setUserInteractionEnabled:YES];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(getAssetFromGesture:)];
         [image addGestureRecognizer:tap];
         [tap release];
-        [image setUserInteractionEnabled:YES];
-        [image setImage:[UIImage imageWithCGImage:[asset thumbnail]]];
+        
+        // finally add the thumbnail to the view
         [view addSubview:image];
         
-        // Add video info view on video assets
+        // Add video info view to video assets
         if ([[asset valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo]) {
+            // This is the transparent black bar at the bottom of the thumbnail
             UIView *videoBar = [[[UIView alloc] initWithFrame:CGRectMake(0, THUMB_SIZE - 18, THUMB_SIZE, 18)] autorelease];
             videoBar.backgroundColor = [UIColor blackColor];
             videoBar.alpha = 0.75f;
             [image addSubview:videoBar];
             
+            // This is the tiny video icon in the lower left of the thumbnail
             UIImageView *videoIcon = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ui_icon_tinyvideo@2x.png"]] autorelease];
             videoIcon.frame = CGRectMake(6, THUMB_SIZE - 13, videoIcon.frame.size.width/2.0f, videoIcon.frame.size.height/2.0f);
             [image addSubview:videoIcon];
             
+            // Calculate the duration of the video
+            // Note that NSTimeInterval is a double
             NSTimeInterval duration = [[asset valueForProperty:ALAssetPropertyDuration] doubleValue];
             int minutes = duration/60;
             int seconds = duration - (minutes * 60);
             
+            // Make a UILabel with the duration on it
+            // Needs to be in this GCD block otherwise the view will take a few
+            // seconds to appear.
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 dispatch_sync(dispatch_get_main_queue(), ^{
                     UILabel *lengthLabel = [[[UILabel alloc] initWithFrame:CGRectMake(THUMB_SIZE/2.0f, THUMB_SIZE - 14, (THUMB_SIZE/2.0f) - 6, 12)] autorelease];
@@ -210,7 +231,7 @@
              [group setAssetsFilter:[ALAssetsFilter allAssets]];
              [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
                  if (result != nil) {
-                     [self.allAssets addObject:result];
+                     [self.assetsArray addObject:result];
                  }
                  else {
                      [self.assetsTable reloadData];
@@ -249,7 +270,7 @@
 
 - (void)getAssetFromGesture:(UIGestureRecognizer *)gesture {
     UIImageView *view = (UIImageView *)[gesture view];
-    ALAsset *asset = [self.allAssets objectAtIndex:[view tag]];
+    ALAsset *asset = [self.assetsArray objectAtIndex:[view tag]];
     BOOL isPhoto = [asset valueForProperty:ALAssetPropertyType] == ALAssetTypePhoto;
 
     NSDictionary *info;
@@ -273,7 +294,7 @@
 - (void)releaseObjects
 {
     _delegate = nil;
-    [_allAssets release]; _allAssets = nil;
+    [_assetsArray release]; _assetsArray = nil;
     [_assetsLibrary release]; _assetsLibrary = nil;
     [_assetsTable release]; _assetsTable = nil;
     [_header release]; _header = nil;
