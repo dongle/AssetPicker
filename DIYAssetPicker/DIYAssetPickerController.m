@@ -176,7 +176,7 @@
         ALAsset *asset = [self.assetsArray objectAtIndex:index+i];
         
         // Make a UIImageView for the thumbnail image; attach thumbnail image
-        UIImageView *image = [[[UIImageView alloc] initWithFrame:rect] autorelease];
+        UIImageView *image = [[UIImageView alloc] initWithFrame:rect];
         [image setImage:[UIImage imageWithCGImage:[asset thumbnail]]];
         
         // Set a tag on the imageView so it can be identified later
@@ -190,6 +190,7 @@
         
         // finally add the thumbnail to the view
         [view addSubview:image];
+        [image release];
         
         // Add video info view to video assets
         if ([[asset valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo]) {
@@ -323,6 +324,7 @@
 - (void)releaseObjects
 {
     _delegate = nil;
+    
     [_assetsArray release]; _assetsArray = nil;
     [_assetsLibrary release]; _assetsLibrary = nil;
     [_assetsTable release]; _assetsTable = nil;
