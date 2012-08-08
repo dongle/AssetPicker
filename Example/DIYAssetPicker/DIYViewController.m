@@ -34,7 +34,6 @@
 {
     DIYAssetPickerController *picker = [[DIYAssetPickerController alloc] init];
     picker.delegate = self;
-    picker.assetType = DIYAssetPickerVideo;
     [self presentModalViewController:picker animated:true];
     [picker release];
 }
