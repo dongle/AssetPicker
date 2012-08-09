@@ -18,6 +18,7 @@
 		DE5C720215CA057C006C1567 /* DIYViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DE5C720015CA057C006C1567 /* DIYViewController.xib */; };
 		DEB87F6B15CA34A70080638C /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */; };
 		DED20B6A15CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = DED20B6915CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png */; };
+		DEEAB4F715D34C0D000E2EBD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DEEAB4F615D34C0D000E2EBD /* AVFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		DE5C720015CA057C006C1567 /* DIYViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DIYViewController.xib; sourceTree = "<group>"; };
 		DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		DED20B6915CCA9F300DE9584 /* ui_icon_tinyvideo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui_icon_tinyvideo@2x.png"; sourceTree = "<group>"; };
+		DEEAB4F615D34C0D000E2EBD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEEAB4F715D34C0D000E2EBD /* AVFoundation.framework in Frameworks */,
 				DEB87F6B15CA34A70080638C /* AssetsLibrary.framework in Frameworks */,
 				DE25877415CA0152002657BD /* UIKit.framework in Frameworks */,
 				DE25877615CA0152002657BD /* Foundation.framework in Frameworks */,
@@ -76,6 +79,7 @@
 		DE25877215CA0152002657BD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				DEEAB4F615D34C0D000E2EBD /* AVFoundation.framework */,
 				DEB87F6A15CA34A70080638C /* AssetsLibrary.framework */,
 				DE25877315CA0152002657BD /* UIKit.framework */,
 				DE25877515CA0152002657BD /* Foundation.framework */,
