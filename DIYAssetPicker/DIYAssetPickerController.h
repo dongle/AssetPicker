@@ -55,9 +55,9 @@ typedef enum {
 }
 
 #pragma mark - Delegate
-@property (assign)            id<DIYAssetPickerControllerDelegate>  delegate;
+@property (assign)            NSObject<DIYAssetPickerControllerDelegate>  *delegate;
 
 #pragma mark - Options
-@property (nonatomic, assign) DIYAssetPickerControllerAssetType     assetType;
+@property (nonatomic, assign) DIYAssetPickerControllerAssetType           assetType;
 
 @end

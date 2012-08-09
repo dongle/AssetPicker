@@ -350,13 +350,12 @@
     [self.exporter exportAsynchronouslyWithCompletionHandler:^(void) {
         switch (self.exporter.status) {
             case AVAssetExportSessionStatusCompleted:
-                [self.delegate pickerDidFinishPickingWithInfo:self.videoInfo];
-//                [self performSelectorOnMainThread:nil withObject:nil waitUntilDone:true];
+                [self.delegate performSelectorOnMainThread:@selector(pickerDidFinishPickingWithInfo:) withObject:self.videoInfo waitUntilDone:true];
                 break;
             case AVAssetExportSessionStatusFailed:
                 // What is a better thing to do in this case?
                 [self.videoInfo setValue:@"" forKey:UIImagePickerControllerMediaURL];
-                [self.delegate pickerDidFinishPickingWithInfo:self.videoInfo];
+                [self.delegate performSelectorOnMainThread:@selector(pickerDidFinishPickingWithInfo:) withObject:self.videoInfo waitUntilDone:true];
                 break;
             default:
                 break;
