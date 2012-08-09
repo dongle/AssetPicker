@@ -386,16 +386,12 @@
 
 - (void)toggleExportDisplay
 {
-    CGRect exportViewFrame;
-    CGRect blockingViewFrame;
-    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
-        exportViewFrame = CGRectMake(0, self.view.frame.size.width - 60, self.view.frame.size.height, 60);
-        blockingViewFrame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
-    }
-    else {
-        exportViewFrame = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, 60);
-        blockingViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    }
+    CGSize size = self.view.frame.size;
+    CGSize apply = (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) ? CGSizeMake(size.width, size.height) : CGSizeMake(size.height, size.width);
+    CGFloat offset = 60;
+    
+    CGRect exportViewFrame = CGRectMake(0, apply.width - offset, apply.height, offset);
+    CGRect blockingViewFrame = CGRectMake(0, 0, apply.height, apply.width);
     
     // Create a view to block input
     UIView *blockingView = [[UIView alloc] initWithFrame:blockingViewFrame];
