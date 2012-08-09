@@ -347,7 +347,8 @@
     NSString *directory = NSTemporaryDirectory();
     NSString *assetName = [NSString stringWithFormat:@"%@.mov", [[NSProcessInfo processInfo] globallyUniqueString]];
     NSString *assetPath = [directory stringByAppendingPathComponent:assetName];
-    [self.videoInfo setValue:assetPath forKey:UIImagePickerControllerMediaURL];
+    NSURL *assetURL = [NSURL fileURLWithPath:assetPath];
+    [self.videoInfo setValue:assetURL forKey:UIImagePickerControllerMediaURL];
     
     AVAsset *avAsset = [AVAsset assetWithURL:[[alAsset defaultRepresentation] url]];
     _exporter = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:AVAssetExportPresetPassthrough];
