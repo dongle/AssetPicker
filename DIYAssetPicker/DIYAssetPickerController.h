@@ -34,13 +34,14 @@
 - (BOOL)shouldPickerAutorotate:(UIInterfaceOrientation)toInterfaceOrientation;
 @end
 
-UIInterfaceOrientation orientation;
-
 typedef enum {
     DIYAssetPickerPhoto,
     DIYAssetPickerVideo,
     DIYAssetPickerPhotoVideo
 } DIYAssetPickerControllerAssetType;
+
+// New keys:
+NSString *const DIYAssetPickerThumbnail;
 
 @interface DIYAssetPickerController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
