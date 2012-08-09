@@ -32,6 +32,12 @@
 
 -(IBAction)assetPickerButtonSelected:(id)sender
 {
+    /*
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    [picker setSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+    picker.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:UIImagePickerControllerSourceTypeSavedPhotosAlbum];
+     */
+    
     DIYAssetPickerController *picker = [[DIYAssetPickerController alloc] init];
     picker.delegate = self;
     [self presentModalViewController:picker animated:true];
@@ -59,6 +65,26 @@
 - (BOOL)shouldPickerAutorotate:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return [self shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
+}
+
+#pragma mark - UIImagePickerController protocol
+
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+{
+    [self dismissModalViewControllerAnimated:true];
+    
+    NSLog(@"asset info: %@", info);
+    
+    NSURL *selectedVideoUrl         = [info objectForKey:UIImagePickerControllerMediaURL];
+    NSError *error;
+    NSDictionary *properties        = [[NSFileManager defaultManager] attributesOfItemAtPath:selectedVideoUrl.path error:&error];
+    NSNumber *size                  = [properties objectForKey: NSFileSize];
+    NSLog(@"File size: %@", size);
+}
+
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [self dismissModalViewControllerAnimated:true];
 }
 
 #pragma mark - Dealloc
