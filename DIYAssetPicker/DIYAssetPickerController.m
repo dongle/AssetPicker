@@ -388,7 +388,7 @@
 - (void)toggleExportDisplay
 {
     CGSize size = self.view.frame.size;
-    CGSize apply = (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) ? CGSizeMake(size.width, size.height) : CGSizeMake(size.height, size.width);
+    CGSize apply = (UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) ? CGSizeMake(size.width, size.height) : CGSizeMake(size.height, size.width);
     CGFloat offset = 60;
     
     CGRect exportViewFrame = CGRectMake(0, apply.width - offset, apply.height, offset);
