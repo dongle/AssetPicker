@@ -390,6 +390,7 @@
     
     // Create a view to block input
     UIView *blockingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    blockingView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     blockingView.backgroundColor = [UIColor blackColor];
     blockingView.alpha = 0.0f;
     [self.view addSubview:blockingView];
@@ -397,11 +398,13 @@
     
     // Container view for the progressview and the label
     _exportDisplay = [[UIView alloc] initWithFrame:initialPos];
+    self.exportDisplay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     self.exportDisplay.backgroundColor = [UIColor blackColor];
     self.exportDisplay.alpha = 0.0f;
     
     // Label for the export progress view
     UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.exportDisplay.frame.size.width, 20)];
+    progressLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     progressLabel.backgroundColor = [UIColor clearColor];
     progressLabel.textColor = [UIColor whiteColor];
     progressLabel.textAlignment = UITextAlignmentCenter;
@@ -411,7 +414,8 @@
     
     // Progress view
     _exportDisplayProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
-    self.exportDisplayProgress.frame = CGRectMake(self.exportDisplayProgress.frame.origin.x, progressLabel.frame.origin.y + 25, self.exportDisplayProgress.frame.size.width, self.exportDisplayProgress.frame.size.height);
+    self.exportDisplayProgress.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+    self.exportDisplayProgress.frame = CGRectMake(0, progressLabel.frame.origin.y + 25, self.exportDisplayProgress.frame.size.width, self.exportDisplayProgress.frame.size.height);
     self.exportDisplayProgress.center = CGPointMake(self.exportDisplay.center.x, self.exportDisplayProgress.center.y);
     self.exportDisplayProgress.progress = self.exporter.progress;
     [self.exportDisplay addSubview:self.exportDisplayProgress];
