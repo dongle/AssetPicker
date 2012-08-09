@@ -353,7 +353,7 @@
     AVAsset *avAsset = [AVAsset assetWithURL:[[alAsset defaultRepresentation] url]];
     _exporter = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:AVAssetExportPresetPassthrough];
     self.exporter.outputFileType = AVFileTypeQuickTimeMovie;
-    self.exporter.outputURL = [NSURL fileURLWithPath:assetPath];
+    self.exporter.outputURL = assetURL;
     self.exporter.shouldOptimizeForNetworkUse = true;
     [self.exporter exportAsynchronouslyWithCompletionHandler:^(void) {
         switch (self.exporter.status) {
