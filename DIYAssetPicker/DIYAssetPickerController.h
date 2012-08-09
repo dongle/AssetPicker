@@ -9,6 +9,7 @@
 
 #import <UIKit/UIKit.h>
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <AVFoundation/AVFoundation.h>
 
 // Thanks to P3:
 #define THUMB_COUNT_PER_ROW ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ? 6 : 4)
@@ -43,16 +44,20 @@ typedef enum {
 
 @interface DIYAssetPickerController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 {
-    @private ALAssetsLibrary *_assetsLibrary;
-    @private NSMutableArray *_assetsArray;
-    @private UITableView *_assetsTable;
-    @private UINavigationBar *_header;
+    @private ALAssetsLibrary        *_assetsLibrary;
+    @private NSMutableArray         *_assetsArray;
+    @private UITableView            *_assetsTable;
+    @private UINavigationBar        *_header;
+    
+    @private NSMutableDictionary    *_videoInfo;
+    @private AVAssetExportSession   *_exporter;
+    @private NSTimer                *_exportDisplayTimer;
 }
 
 #pragma mark - Delegate
-@property (assign) id<DIYAssetPickerControllerDelegate> delegate;
+@property (assign)            id<DIYAssetPickerControllerDelegate>  delegate;
 
 #pragma mark - Options
-@property (nonatomic, assign) DIYAssetPickerControllerAssetType assetType;
+@property (nonatomic, assign) DIYAssetPickerControllerAssetType     assetType;
 
 @end

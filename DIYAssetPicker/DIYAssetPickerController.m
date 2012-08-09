@@ -9,20 +9,28 @@
 #import "DIYAssetPickerController.h"
 
 @interface DIYAssetPickerController ()
-@property (nonatomic, retain) ALAssetsLibrary *assetsLibrary;
-@property (nonatomic, retain) NSMutableArray *assetsArray;
-@property (nonatomic, retain) UITableView *assetsTable;
-@property (nonatomic, retain) UINavigationBar *header;
+@property (nonatomic, retain) ALAssetsLibrary      *assetsLibrary;
+@property (nonatomic, retain) NSMutableArray       *assetsArray;
+@property (nonatomic, retain) UITableView          *assetsTable;
+@property (nonatomic, retain) UINavigationBar      *header;
+
+@property (nonatomic, retain) NSMutableDictionary  *videoInfo;
+@property (nonatomic, retain) AVAssetExportSession *exporter;
+@property (nonatomic, assign) NSTimer              *exportDisplayTimer;
 @end
 
 @implementation DIYAssetPickerController
 
-@synthesize assetsLibrary = _assetsLibrary;
-@synthesize assetsArray = _assetsArray;
-@synthesize assetsTable = _assetsTable;
-@synthesize header = _header;
+@synthesize assetsLibrary      = _assetsLibrary;
+@synthesize assetsArray        = _assetsArray;
+@synthesize assetsTable        = _assetsTable;
+@synthesize header             = _header;
 
-@synthesize delegate = _delegate;
+@synthesize videoInfo          = _videoInfo;
+@synthesize exporter           = _exporter;
+@synthesize exportDisplayTimer = _exportDisplayTimer;
+
+@synthesize delegate           = _delegate;
 
 #pragma mark - Init
 
@@ -71,6 +79,13 @@
     [self.view addSubview:self.assetsTable];
     
     [self.view bringSubviewToFront:self.header];
+    
+    // Asset Info
+    _videoInfo = [[NSMutableDictionary alloc] init];
+    
+    // Exporter stuff; don't initialize until needed
+    _exporter = nil;
+    _exportDisplayTimer = nil;
 }
 
 #pragma mark - Rotation
@@ -303,20 +318,62 @@
     ALAsset *asset = [self.assetsArray objectAtIndex:[view tag]];
     BOOL isPhoto = [asset valueForProperty:ALAssetPropertyType] == ALAssetTypePhoto;
 
-    NSDictionary *info;
     if (isPhoto) {
-        info = @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
-                  UIImagePickerControllerOriginalImage : [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1 orientation:(UIImageOrientation)[[asset defaultRepresentation] orientation]],
-                  UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
-                          };
+        NSDictionary *photoInfo = @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
+        UIImagePickerControllerOriginalImage : [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1 orientation:(UIImageOrientation)[[asset defaultRepresentation] orientation]],
+        UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
+        };
+        [self.delegate pickerDidFinishPickingWithInfo:photoInfo];
     }
     else {
-        info = @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
+        [self.videoInfo addEntriesFromDictionary: @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
                   UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
-                    };
+                    }];
+        [self exportAsset:asset];
     }
+}
+
+#pragma mark - Exporter
+
+- (void)exportAsset:(ALAsset *)alAsset
+{
+    NSString *directory = NSTemporaryDirectory();
+    NSString *assetName = [NSString stringWithFormat:@"%@.mov", [[NSProcessInfo processInfo] globallyUniqueString]];
+    NSString *assetPath = [directory stringByAppendingPathComponent:assetName];
+    [self.videoInfo setValue:assetPath forKey:UIImagePickerControllerMediaURL];
     
-    [self.delegate pickerDidFinishPickingWithInfo:info];
+    AVAsset *avAsset = [AVAsset assetWithURL:[[alAsset defaultRepresentation] url]];
+    _exporter = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:AVAssetExportPresetPassthrough];
+    self.exporter.outputFileType = AVFileTypeQuickTimeMovie;
+    self.exporter.outputURL = [NSURL fileURLWithPath:assetPath];
+    self.exporter.shouldOptimizeForNetworkUse = true;
+    [self.exporter exportAsynchronouslyWithCompletionHandler:^(void) {
+        switch (self.exporter.status) {
+            case AVAssetExportSessionStatusCompleted:
+                [self.delegate pickerDidFinishPickingWithInfo:self.videoInfo];
+//                [self performSelectorOnMainThread:nil withObject:nil waitUntilDone:true];
+                break;
+            case AVAssetExportSessionStatusFailed:
+                // What is a better thing to do in this case?
+                [self.videoInfo setValue:@"" forKey:UIImagePickerControllerMediaURL];
+                [self.delegate pickerDidFinishPickingWithInfo:self.videoInfo];
+                break;
+            default:
+                break;
+        }
+    }];
+    
+    // Run a timer to do progressbar stuff
+    _exportDisplayTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateExportDisplay) userInfo:nil repeats:YES];
+}
+
+- (void)updateExportDisplay
+{
+    NSLog(@"progress: %f", self.exporter.progress);
+    if (self.exporter.progress > .99) {
+        [self.exportDisplayTimer invalidate];
+        _exportDisplayTimer = nil;
+    }
 }
 
 #pragma mark - Dealloc
@@ -329,6 +386,10 @@
     [_assetsLibrary release]; _assetsLibrary = nil;
     [_assetsTable release]; _assetsTable = nil;
     [_header release]; _header = nil;
+    
+    [_videoInfo release]; _videoInfo = nil;
+    [_exporter release]; _exporter = nil;
+    [_exportDisplayTimer invalidate]; _exportDisplayTimer = nil;
 }
 
 - (void)dealloc
