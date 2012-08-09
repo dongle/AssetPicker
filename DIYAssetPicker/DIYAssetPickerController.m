@@ -17,20 +17,25 @@
 @property (nonatomic, retain) NSMutableDictionary  *videoInfo;
 @property (nonatomic, retain) AVAssetExportSession *exporter;
 @property (nonatomic, assign) NSTimer              *exportDisplayTimer;
+@property (nonatomic, retain) UIView               *exportDisplay;
+@property (nonatomic, retain) UIProgressView       *exportDisplayProgress;
+
 @end
 
 @implementation DIYAssetPickerController
 
-@synthesize assetsLibrary      = _assetsLibrary;
-@synthesize assetsArray        = _assetsArray;
-@synthesize assetsTable        = _assetsTable;
-@synthesize header             = _header;
+@synthesize assetsLibrary           = _assetsLibrary;
+@synthesize assetsArray             = _assetsArray;
+@synthesize assetsTable             = _assetsTable;
+@synthesize header                  = _header;
 
-@synthesize videoInfo          = _videoInfo;
-@synthesize exporter           = _exporter;
-@synthesize exportDisplayTimer = _exportDisplayTimer;
+@synthesize videoInfo               = _videoInfo;
+@synthesize exporter                = _exporter;
+@synthesize exportDisplayTimer      = _exportDisplayTimer;
+@synthesize exportDisplay           = _exportDisplay;
+@synthesize exportDisplayProgress   = _exportDisplayProgress;
 
-@synthesize delegate           = _delegate;
+@synthesize delegate                = _delegate;
 
 #pragma mark - Init
 
@@ -85,6 +90,8 @@
     
     // Exporter stuff; don't initialize until needed
     _exporter = nil;
+    _exportDisplay = nil;
+    _exportDisplayProgress = nil;
     _exportDisplayTimer = nil;
 }
 
@@ -364,15 +371,58 @@
     
     // Run a timer to do progressbar stuff
     _exportDisplayTimer = [NSTimer scheduledTimerWithTimeInterval:.1 target:self selector:@selector(updateExportDisplay) userInfo:nil repeats:YES];
+    [self toggleExportDisplay];
 }
 
 - (void)updateExportDisplay
 {
-    NSLog(@"progress: %f", self.exporter.progress);
+    self.exportDisplayProgress.progress = self.exporter.progress;
+    
     if (self.exporter.progress > .99) {
         [self.exportDisplayTimer invalidate];
         _exportDisplayTimer = nil;
     }
+}
+
+- (void)toggleExportDisplay
+{
+    CGRect initialPos = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, 60);
+    
+    // Create a view to block input
+    UIView *blockingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    blockingView.backgroundColor = [UIColor blackColor];
+    blockingView.alpha = 0.0f;
+    [self.view addSubview:blockingView];
+    [blockingView release];
+    
+    // Container view for the progressview and the label
+    _exportDisplay = [[UIView alloc] initWithFrame:initialPos];
+    self.exportDisplay.backgroundColor = [UIColor blackColor];
+    self.exportDisplay.alpha = 0.0f;
+    
+    // Label for the export progress view
+    UILabel *progressLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, self.exportDisplay.frame.size.width, 20)];
+    progressLabel.backgroundColor = [UIColor clearColor];
+    progressLabel.textColor = [UIColor whiteColor];
+    progressLabel.textAlignment = UITextAlignmentCenter;
+    progressLabel.text = @"Exporting video …";
+    [self.exportDisplay addSubview:progressLabel];
+    [progressLabel release];
+    
+    // Progress view
+    _exportDisplayProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
+    self.exportDisplayProgress.frame = CGRectMake(self.exportDisplayProgress.frame.origin.x, progressLabel.frame.origin.y + 25, self.exportDisplayProgress.frame.size.width, self.exportDisplayProgress.frame.size.height);
+    self.exportDisplayProgress.center = CGPointMake(self.exportDisplay.center.x, self.exportDisplayProgress.center.y);
+    self.exportDisplayProgress.progress = self.exporter.progress;
+    [self.exportDisplay addSubview:self.exportDisplayProgress];
+    
+    [self.view addSubview:self.exportDisplay];
+    
+    // Make cute animations for the transition
+    [UIView animateWithDuration:0.2f animations:^{
+        blockingView.alpha = 0.75f;
+        self.exportDisplay.alpha = 1.0f;
+    }];
 }
 
 #pragma mark - Dealloc
@@ -388,6 +438,8 @@
     
     [_videoInfo release]; _videoInfo = nil;
     [_exporter release]; _exporter = nil;
+    [_exportDisplay release]; _exportDisplay = nil;
+    [_exportDisplayProgress release]; _exportDisplayProgress = nil;
     [_exportDisplayTimer invalidate]; _exportDisplayTimer = nil;
 }
 

@@ -52,6 +52,8 @@ typedef enum {
     @private NSMutableDictionary    *_videoInfo;
     @private AVAssetExportSession   *_exporter;
     @private NSTimer                *_exportDisplayTimer;
+    @private UIView                 *_exportDisplay;
+    @private UIProgressView         *_exportDisplayProgress;
 }
 
 #pragma mark - Delegate
