@@ -386,10 +386,19 @@
 
 - (void)toggleExportDisplay
 {
-    CGRect initialPos = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, 60);
+    CGRect exportViewFrame;
+    CGRect blockingViewFrame;
+    if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        exportViewFrame = CGRectMake(0, self.view.frame.size.width - 60, self.view.frame.size.height, 60);
+        blockingViewFrame = CGRectMake(0, 0, self.view.frame.size.height, self.view.frame.size.width);
+    }
+    else {
+        exportViewFrame = CGRectMake(0, self.view.frame.size.height - 60, self.view.frame.size.width, 60);
+        blockingViewFrame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    }
     
     // Create a view to block input
-    UIView *blockingView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    UIView *blockingView = [[UIView alloc] initWithFrame:blockingViewFrame];
     blockingView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     blockingView.backgroundColor = [UIColor blackColor];
     blockingView.alpha = 0.0f;
@@ -397,7 +406,7 @@
     [blockingView release];
     
     // Container view for the progressview and the label
-    _exportDisplay = [[UIView alloc] initWithFrame:initialPos];
+    _exportDisplay = [[UIView alloc] initWithFrame:exportViewFrame];
     self.exportDisplay.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
     self.exportDisplay.backgroundColor = [UIColor blackColor];
     self.exportDisplay.alpha = 0.0f;
