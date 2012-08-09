@@ -19,8 +19,9 @@
 @property (nonatomic, assign) NSTimer              *exportDisplayTimer;
 @property (nonatomic, retain) UIView               *exportDisplay;
 @property (nonatomic, retain) UIProgressView       *exportDisplayProgress;
-
 @end
+
+NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 
 @implementation DIYAssetPickerController
 
@@ -349,6 +350,7 @@
     NSString *assetPath = [directory stringByAppendingPathComponent:assetName];
     NSURL *assetURL = [NSURL fileURLWithPath:assetPath];
     [self.videoInfo setValue:assetURL forKey:UIImagePickerControllerMediaURL];
+    [self.videoInfo setValue:[UIImage imageWithCGImage:[alAsset aspectRatioThumbnail]] forKey:DIYAssetPickerThumbnail];
     
     AVAsset *avAsset = [AVAsset assetWithURL:[[alAsset defaultRepresentation] url]];
     _exporter = [[AVAssetExportSession alloc] initWithAsset:avAsset presetName:AVAssetExportPresetPassthrough];
