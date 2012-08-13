@@ -43,16 +43,15 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 - (id)init
 {
     if (self = [super init]) {
-        self.assetType = DIYAssetPickerPhotoVideo;
+        [self _setup];
     }
     return self;
 }
 
-#pragma mark - View Lifecycle
-
-- (void)viewDidLoad
+- (void)_setup
 {
-    [super viewDidLoad];
+    //
+    self.assetType = DIYAssetPickerPhotoVideo;
     
     // Setup
     [self setTitle:@"Library"];
@@ -94,6 +93,13 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     _exportDisplay = nil;
     _exportDisplayProgress = nil;
     _exportDisplayTimer = nil;
+}
+
+#pragma mark - View Lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
 }
 
 #pragma mark - Rotation
@@ -175,7 +181,6 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
 }
 
-// Thanks to PhotoPickerPlus:
 - (UIView *)tableView:(UITableView *)tableView viewForIndexPath:(NSIndexPath *)indexPath
 {
     // This is the view that will be returned as the contentView for each cell
@@ -254,7 +259,6 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     }
     return view;
 }
-// Endthanks
 
 #pragma mark - Overridden setters and getters
 
