@@ -55,7 +55,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     [super viewDidLoad];
     
     // Setup
-    [self setTitle:@"Asset Picker"];
+    [self setTitle:@"Library"];
     
     // Asset library & array
     self.assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
