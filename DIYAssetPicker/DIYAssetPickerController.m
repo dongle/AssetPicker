@@ -328,14 +328,15 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 
     if (isPhoto) {
         NSDictionary *photoInfo = @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
-        UIImagePickerControllerOriginalImage : [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1 orientation:(UIImageOrientation)[[asset defaultRepresentation] orientation]],
-        UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
+                                     UIImagePickerControllerOriginalImage : [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1 orientation:(UIImageOrientation)[[asset defaultRepresentation] orientation]],
+                                     UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
+                                     DIYAssetPickerThumbnail : [UIImage imageWithCGImage:[asset aspectRatioThumbnail]],
         };
         [self.delegate pickerDidFinishPickingWithInfo:photoInfo];
     }
     else {
         [self.videoInfo addEntriesFromDictionary: @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
-                  UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
+                                                     UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
                     }];
         [self exportAsset:asset];
     }
