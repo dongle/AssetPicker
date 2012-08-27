@@ -271,7 +271,8 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 
 #pragma mark - Utility
 
-- (void)getAssetsArray {
+- (void)getAssetsArray
+{
     [self.assetsArray removeAllObjects];
     
     [self.assetsLibrary
@@ -325,7 +326,8 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
          }];
 }
 
-- (void)getAssetFromGesture:(UIGestureRecognizer *)gesture {
+- (void)getAssetFromGesture:(UIGestureRecognizer *)gesture
+{
     UIImageView *view = (UIImageView *)[gesture view];
     ALAsset *asset = [self.assetsArray objectAtIndex:[view tag]];
     BOOL isPhoto = [asset valueForProperty:ALAssetPropertyType] == ALAssetTypePhoto;
