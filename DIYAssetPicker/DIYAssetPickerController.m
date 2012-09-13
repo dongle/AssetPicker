@@ -25,28 +25,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 
 @implementation DIYAssetPickerController
 
-@synthesize assetsLibrary           = _assetsLibrary;
-@synthesize assetsArray             = _assetsArray;
-@synthesize assetsTable             = _assetsTable;
-@synthesize header                  = _header;
-
-@synthesize videoInfo               = _videoInfo;
-@synthesize exporter                = _exporter;
-@synthesize exportDisplayTimer      = _exportDisplayTimer;
-@synthesize exportDisplay           = _exportDisplay;
-@synthesize exportDisplayProgress   = _exportDisplayProgress;
-
-@synthesize delegate                = _delegate;
-
 #pragma mark - Init
-
-- (id)init
-{
-    if (self = [super init]) {
-        [self _setup];
-    }
-    return self;
-}
 
 - (void)_setup
 {
@@ -95,11 +74,11 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     _exportDisplayTimer = nil;
 }
 
-#pragma mark - View Lifecycle
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [self _setup];
 }
 
 #pragma mark - Rotation
@@ -150,20 +129,18 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
+
+    for (UIView *view in cell.contentView.subviews){
+        [view removeFromSuperview];
+    }
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^(void) {
-        UIView *v = [self tableView:tableView viewForIndexPath:indexPath];
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            if (v) {
-                for (UIView *view in cell.contentView.subviews){
-                    [view removeFromSuperview];
-                }
-                [cell.contentView addSubview:v];
+        dispatch_sync(dispatch_get_main_queue(), ^(void) {
+            for (UIView *view in cell.contentView.subviews){
+                [view removeFromSuperview];
             }
-            else {
-                [cell setAccessoryType:UITableViewCellAccessoryNone];
-                [cell setEditingAccessoryType:UITableViewCellAccessoryNone];
-            }
+            UIView *v = [self tableView:tableView viewForIndexPath:indexPath];
+            [cell.contentView addSubview:v];
         });
     });
     
