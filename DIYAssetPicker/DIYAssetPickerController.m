@@ -9,16 +9,16 @@
 #import "DIYAssetPickerController.h"
 
 @interface DIYAssetPickerController ()
-@property (nonatomic, retain) ALAssetsLibrary      *assetsLibrary;
-@property (nonatomic, retain) NSMutableArray       *assetsArray;
-@property (nonatomic, retain) UITableView          *assetsTable;
-@property (nonatomic, retain) UINavigationBar      *header;
+@property ALAssetsLibrary      *assetsLibrary;
+@property NSMutableArray       *assetsArray;
+@property UITableView          *assetsTable;
+@property UINavigationBar      *header;
 
-@property (nonatomic, retain) NSMutableDictionary  *videoInfo;
-@property (nonatomic, retain) AVAssetExportSession *exporter;
-@property (nonatomic, assign) NSTimer              *exportDisplayTimer;
-@property (nonatomic, retain) UIView               *exportDisplay;
-@property (nonatomic, retain) UIProgressView       *exportDisplayProgress;
+@property NSMutableDictionary  *videoInfo;
+@property AVAssetExportSession *exporter;
+@property (weak) NSTimer       *exportDisplayTimer;
+@property UIView               *exportDisplay;
+@property UIProgressView       *exportDisplayProgress;
 @end
 
 NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
@@ -36,13 +36,13 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     [self setTitle:@"Library"];
     
     // Asset library & array
-    self.assetsLibrary = [[[ALAssetsLibrary alloc] init] autorelease];
+    self.assetsLibrary = [[ALAssetsLibrary alloc] init];
     
     _assetsArray = [[NSMutableArray alloc] init];
     [self getAssetsArray];
     
     // Header
-    self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)] autorelease];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(cancelPicking)];
     
     _header = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
     self.header.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -127,7 +127,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
 
     for (UIView *view in cell.contentView.subviews){
@@ -161,7 +161,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 - (UIView *)tableView:(UITableView *)tableView viewForIndexPath:(NSIndexPath *)indexPath
 {
     // This is the view that will be returned as the contentView for each cell
-    UIView *view = [[[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetsTable.frame.size.width, [self tableView:self.assetsTable heightForRowAtIndexPath:indexPath])] autorelease];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.assetsTable.frame.size.width, [self tableView:self.assetsTable heightForRowAtIndexPath:indexPath])];
     
     // Layout variables
     int initialThumbOffset = ((int)self.assetsTable.frame.size.width+THUMB_SPACING-(THUMB_COUNT_PER_ROW*(THUMB_SIZE+THUMB_SPACING)))/2;
@@ -191,22 +191,20 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
         [image setUserInteractionEnabled:YES];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(getAssetFromGesture:)];
         [image addGestureRecognizer:tap];
-        [tap release];
         
         // finally add the thumbnail to the view
         [view addSubview:image];
-        [image release];
         
         // Add video info view to video assets
         if ([[asset valueForProperty:ALAssetPropertyType] isEqualToString:ALAssetTypeVideo]) {
             // This is the transparent black bar at the bottom of the thumbnail
-            UIView *videoBar = [[[UIView alloc] initWithFrame:CGRectMake(0, THUMB_SIZE - 18, THUMB_SIZE, 18)] autorelease];
+            UIView *videoBar = [[UIView alloc] initWithFrame:CGRectMake(0, THUMB_SIZE - 18, THUMB_SIZE, 18)];
             videoBar.backgroundColor = [UIColor blackColor];
             videoBar.alpha = 0.75f;
             [image addSubview:videoBar];
             
             // This is the tiny video icon in the lower left of the thumbnail
-            UIImageView *videoIcon = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ui_icon_tinyvideo@2x.png"]] autorelease];
+            UIImageView *videoIcon = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ui_icon_tinyvideo@2x.png"]];
             videoIcon.frame = CGRectMake(6, THUMB_SIZE - 13, videoIcon.frame.size.width/2.0f, videoIcon.frame.size.height/2.0f);
             [image addSubview:videoIcon];
             
@@ -221,7 +219,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
             // seconds to appear.
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
                 dispatch_sync(dispatch_get_main_queue(), ^{
-                    UILabel *lengthLabel = [[[UILabel alloc] initWithFrame:CGRectMake(THUMB_SIZE/2.0f, THUMB_SIZE - 14, (THUMB_SIZE/2.0f) - 6, 12)] autorelease];
+                    UILabel *lengthLabel = [[UILabel alloc] initWithFrame:CGRectMake(THUMB_SIZE/2.0f, THUMB_SIZE - 14, (THUMB_SIZE/2.0f) - 6, 12)];
                     lengthLabel.text = [NSString stringWithFormat:@"%i:%02i", minutes, seconds];
                     lengthLabel.textAlignment = UITextAlignmentRight;
                     lengthLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:11.0f];
@@ -286,7 +284,6 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles:nil];
                  [alert show];
-                 [alert release];
              }
              else {
                  UIAlertView *alert = [[UIAlertView alloc]
@@ -296,7 +293,6 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
                                        cancelButtonTitle:@"OK"
                                        otherButtonTitles:nil];
                  [alert show];
-                 [alert release];
              }
              
              [self.delegate pickerDidCancel:self];
@@ -386,7 +382,6 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     blockingView.backgroundColor = [UIColor blackColor];
     blockingView.alpha = 0.0f;
     [self.view addSubview:blockingView];
-    [blockingView release];
     
     // Container view for the progressview and the label
     _exportDisplay = [[UIView alloc] initWithFrame:exportViewFrame];
@@ -402,7 +397,6 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     progressLabel.textAlignment = UITextAlignmentCenter;
     progressLabel.text = @"Exporting video …";
     [self.exportDisplay addSubview:progressLabel];
-    [progressLabel release];
     
     // Progress view
     _exportDisplayProgress = [[UIProgressView alloc] initWithProgressViewStyle:UIProgressViewStyleDefault];
@@ -423,26 +417,9 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 
 #pragma mark - Dealloc
 
-- (void)releaseObjects
-{
-    _delegate = nil;
-    
-    [_assetsArray release]; _assetsArray = nil;
-    [_assetsLibrary release]; _assetsLibrary = nil;
-    [_assetsTable release]; _assetsTable = nil;
-    [_header release]; _header = nil;
-    
-    [_videoInfo release]; _videoInfo = nil;
-    [_exporter release]; _exporter = nil;
-    [_exportDisplay release]; _exportDisplay = nil;
-    [_exportDisplayProgress release]; _exportDisplayProgress = nil;
-    [_exportDisplayTimer invalidate]; _exportDisplayTimer = nil;
-}
-
 - (void)dealloc
 {
-    [self releaseObjects];
-    [super dealloc];
+    [_exportDisplayTimer invalidate]; _exportDisplayTimer = nil;
 }
 
 @end

@@ -12,17 +12,6 @@
 
 #pragma mark - View lifecycle
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    [self releaseObjects];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return true;
@@ -41,7 +30,6 @@
     DIYAssetPickerController *picker = [[DIYAssetPickerController alloc] init];
     picker.delegate = self;
     [self presentModalViewController:picker animated:true];
-    [picker release];
 }
 
 #pragma mark - DIYAssetPickerController protocol
@@ -85,19 +73,6 @@
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
 {
     [self dismissModalViewControllerAnimated:true];
-}
-
-#pragma mark - Dealloc
-
-- (void)releaseObjects
-{
-
-}
-
-- (void)dealloc
-{
-    [self releaseObjects];
-    [super dealloc];
 }
 
 @end

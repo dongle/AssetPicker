@@ -44,21 +44,9 @@ typedef enum {
 NSString *const DIYAssetPickerThumbnail;
 
 @interface DIYAssetPickerController : UIViewController <UITableViewDataSource, UITableViewDelegate>
-{
-    @private ALAssetsLibrary        *_assetsLibrary;
-    @private NSMutableArray         *_assetsArray;
-    @private UITableView            *_assetsTable;
-    @private UINavigationBar        *_header;
-    
-    @private NSMutableDictionary    *_videoInfo;
-    @private AVAssetExportSession   *_exporter;
-    @private NSTimer                *_exportDisplayTimer;
-    @private UIView                 *_exportDisplay;
-    @private UIProgressView         *_exportDisplayProgress;
-}
 
 #pragma mark - Delegate
-@property (assign)            NSObject<DIYAssetPickerControllerDelegate>  *delegate;
+@property (weak)            NSObject<DIYAssetPickerControllerDelegate>  *delegate;
 
 #pragma mark - Options
 @property (nonatomic, assign) DIYAssetPickerControllerAssetType           assetType;

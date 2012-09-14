@@ -260,6 +260,7 @@
 		DE25878815CA0152002657BD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DIYAssetPicker/DIYAssetPicker-Prefix.pch";
 				INFOPLIST_FILE = "DIYAssetPicker/DIYAssetPicker-Info.plist";
@@ -271,6 +272,7 @@
 		DE25878915CA0152002657BD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "DIYAssetPicker/DIYAssetPicker-Prefix.pch";
 				INFOPLIST_FILE = "DIYAssetPicker/DIYAssetPicker-Info.plist";
