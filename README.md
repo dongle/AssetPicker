@@ -49,7 +49,7 @@ Check out the [UIImagePickerControllerDelegate Protocol Reference](http://develo
 ```
 
 ## ARC
-ARC is not supported at this time ;_;
+DIYAssetPicker as of v0.3.0 is built using ARC. If you are including DIYAssetPicker in a project that does not use Automatic Reference Counting (ARC), you will need to set the -fobjc-arc compiler flag on all of the DIYAssetPicker source files. To do this in Xcode, go to your active target and select the "Build Phases" tab. Now select all DIYAssetPicker source files, press Enter, insert -fobjc-arc and then "Done" to enable ARC for DIYAssetPicker.
 
 ## CAVEATS:
 - I'm using the new [literals for NSArray and NSDictionary](http://cocoaheads.tumblr.com/post/17757846453/objective-c-literals-for-nsdictionary-nsarray-and). You'll need to use Xcode 4.4 or later to compile the code.
