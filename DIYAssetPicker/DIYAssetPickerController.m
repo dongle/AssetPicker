@@ -83,9 +83,9 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 
 #pragma mark - View lifecycle
 
-- (void)viewDidDisappear:(BOOL)animated
+- (void)viewWillDisappear:(BOOL)animated
 {
-    [super viewDidDisappear:animated];
+    [super viewWillDisappear:animated];
     [_exportDisplayTimer invalidate]; _exportDisplayTimer = nil;
 }
 
