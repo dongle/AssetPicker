@@ -81,6 +81,14 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     [self _setup];
 }
 
+#pragma mark - View lifecycle
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_exportDisplayTimer invalidate]; _exportDisplayTimer = nil;
+}
+
 #pragma mark - Rotation
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -413,13 +421,6 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
         blockingView.alpha = 0.75f;
         self.exportDisplay.alpha = 1.0f;
     }];
-}
-
-#pragma mark - Dealloc
-
-- (void)dealloc
-{
-    [_exportDisplayTimer invalidate]; _exportDisplayTimer = nil;
 }
 
 @end
