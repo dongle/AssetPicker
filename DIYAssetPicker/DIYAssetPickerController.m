@@ -27,11 +27,17 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 
 #pragma mark - Init
 
+- (id)init
+{
+    if (self = [super init]) {
+        _assetType = DIYAssetPickerPhotoVideo;
+    }
+    
+    return self;
+}
+
 - (void)_setup
 {
-    //
-    self.assetType = DIYAssetPickerPhotoVideo;
-    
     // Setup
     [self setTitle:@"Library"];
     
@@ -137,7 +143,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-
+    
     for (UIView *view in cell.contentView.subviews){
         [view removeFromSuperview];
     }
@@ -237,7 +243,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
                 });
             });
         }
-
+        
         rect = CGRectMake((rect.origin.x+THUMB_SIZE+THUMB_SPACING), rect.origin.y, rect.size.width, rect.size.height);
     }
     return view;
@@ -259,52 +265,52 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     [self.assetsArray removeAllObjects];
     
     [self.assetsLibrary
-         enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
-         usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
-             if (self.assetType == DIYAssetPickerPhoto) {
-                 [group setAssetsFilter:[ALAssetsFilter allPhotos]];
-             }
-             else if (self.assetType == DIYAssetPickerVideo) {
-                 [group setAssetsFilter:[ALAssetsFilter allVideos]];
-             }
-             else {
-                 [group setAssetsFilter:[ALAssetsFilter allAssets]];
-             }
-             [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
-                 if (result != nil) {
-                     [self.assetsArray addObject:result];
-                 }
-                 else {
-                     [self.assetsTable reloadData];
-                     if ([self.delegate respondsToSelector:@selector(pickerDidFinishLoading)]) {
-                         [self.delegate pickerDidFinishLoading];
-                     }
-                 }
-             }];
+     enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
+     usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+         if (self.assetType == DIYAssetPickerPhoto) {
+             [group setAssetsFilter:[ALAssetsFilter allPhotos]];
          }
-         failureBlock:^(NSError *error) {
-             NSInteger code = [error code];
-             if (code == ALAssetsLibraryAccessUserDeniedError || code == ALAssetsLibraryAccessGloballyDeniedError) {
-                 UIAlertView *alert = [[UIAlertView alloc]
-                                       initWithTitle:@"Error"
-                                       message:@"Since photos may have location data attached, you must approve location data access to use the picker."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-                 [alert show];
+         else if (self.assetType == DIYAssetPickerVideo) {
+             [group setAssetsFilter:[ALAssetsFilter allVideos]];
+         }
+         else {
+             [group setAssetsFilter:[ALAssetsFilter allAssets]];
+         }
+         [group enumerateAssetsWithOptions:NSEnumerationReverse usingBlock:^(ALAsset *result, NSUInteger index, BOOL *stop) {
+             if (result != nil) {
+                 [self.assetsArray addObject:result];
              }
              else {
-                 UIAlertView *alert = [[UIAlertView alloc]
-                                       initWithTitle:@"Error"
-                                       message:@"IDK, dude, something's busted."
-                                       delegate:nil
-                                       cancelButtonTitle:@"OK"
-                                       otherButtonTitles:nil];
-                 [alert show];
+                 [self.assetsTable reloadData];
+                 if ([self.delegate respondsToSelector:@selector(pickerDidFinishLoading)]) {
+                     [self.delegate pickerDidFinishLoading];
+                 }
              }
-             
-             [self.delegate pickerDidCancel:self];
          }];
+     }
+     failureBlock:^(NSError *error) {
+         NSInteger code = [error code];
+         if (code == ALAssetsLibraryAccessUserDeniedError || code == ALAssetsLibraryAccessGloballyDeniedError) {
+             UIAlertView *alert = [[UIAlertView alloc]
+                                   initWithTitle:@"Error"
+                                   message:@"Since photos may have location data attached, you must approve location data access to use the picker."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+             [alert show];
+         }
+         else {
+             UIAlertView *alert = [[UIAlertView alloc]
+                                   initWithTitle:@"Error"
+                                   message:@"IDK, dude, something's busted."
+                                   delegate:nil
+                                   cancelButtonTitle:@"OK"
+                                   otherButtonTitles:nil];
+             [alert show];
+         }
+         
+         [self.delegate pickerDidCancel:self];
+     }];
 }
 
 - (void)getAssetFromGesture:(UIGestureRecognizer *)gesture
@@ -312,19 +318,19 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     UIImageView *view = (UIImageView *)[gesture view];
     ALAsset *asset = [self.assetsArray objectAtIndex:[view tag]];
     BOOL isPhoto = [asset valueForProperty:ALAssetPropertyType] == ALAssetTypePhoto;
-
+    
     if (isPhoto) {
         NSDictionary *photoInfo = @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
-                                     UIImagePickerControllerOriginalImage : [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1 orientation:(UIImageOrientation)[[asset defaultRepresentation] orientation]],
-                                     UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
-                                     DIYAssetPickerThumbnail : [UIImage imageWithCGImage:[asset aspectRatioThumbnail]],
+        UIImagePickerControllerOriginalImage : [UIImage imageWithCGImage:[[asset defaultRepresentation] fullResolutionImage] scale:1 orientation:(UIImageOrientation)[[asset defaultRepresentation] orientation]],
+        UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
+        DIYAssetPickerThumbnail : [UIImage imageWithCGImage:[asset aspectRatioThumbnail]],
         };
         [self.delegate pickerDidFinishPickingWithInfo:photoInfo];
     }
     else {
         [self.videoInfo addEntriesFromDictionary: @{ UIImagePickerControllerMediaType : [[asset defaultRepresentation] UTI],
-                                                     UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
-                    }];
+            UIImagePickerControllerReferenceURL : [[asset defaultRepresentation] url],
+         }];
         [self exportAsset:asset];
     }
 }
