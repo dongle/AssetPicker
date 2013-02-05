@@ -31,6 +31,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
 {
     if (self = [super init]) {
         _assetType = DIYAssetPickerPhotoVideo;
+        _groupType = ALAssetsGroupSavedPhotos;
     }
     
     return self;
@@ -258,6 +259,13 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     [self.assetsTable reloadData];
 }
 
+- (void)setGroupType:(ALAssetsGroupType)groupType
+{
+    self->_groupType = groupType;
+    [self getAssetsArray];
+    [self.assetsTable reloadData];
+}
+
 #pragma mark - Utility
 
 - (void)getAssetsArray
@@ -265,7 +273,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
     [self.assetsArray removeAllObjects];
     
     [self.assetsLibrary
-     enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos
+     enumerateGroupsWithTypes:self.groupType
      usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
          if (self.assetType == DIYAssetPickerPhoto) {
              [group setAssetsFilter:[ALAssetsFilter allPhotos]];
