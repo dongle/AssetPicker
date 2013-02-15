@@ -303,7 +303,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
                                    initWithTitle:NSLocalizedString(@"Privacy Error", @"Privacy error title.")
                                    message:NSLocalizedString(@"Please go to the Settings app > Privacy > Photos and enable access for this app in order to choose photos from the device library.", @"Privacy error message.")
                                    delegate:nil
-                                   cancelButtonTitle:@"OK"
+                                   cancelButtonTitle:NSLocalizedString(@"OK", @"OK button title.")
                                    otherButtonTitles:nil];
              [alert show];
          }
