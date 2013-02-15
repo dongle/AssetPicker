@@ -300,8 +300,8 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
          NSInteger code = [error code];
          if (code == ALAssetsLibraryAccessUserDeniedError || code == ALAssetsLibraryAccessGloballyDeniedError) {
              UIAlertView *alert = [[UIAlertView alloc]
-                                   initWithTitle:@"Error"
-                                   message:@"Since photos may have location data attached, you must approve location data access to use the picker."
+                                   initWithTitle:NSLocalizedString(@"Privacy Error", @"Privacy error title.")
+                                   message:NSLocalizedString(@"Please go to the Settings app > Privacy > Photos and enable access for this app in order to choose photos from the device library.", @"Privacy error message.")
                                    delegate:nil
                                    cancelButtonTitle:@"OK"
                                    otherButtonTitles:nil];
