@@ -293,7 +293,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
          if (code == ALAssetsLibraryAccessUserDeniedError || code == ALAssetsLibraryAccessGloballyDeniedError) {
              UIAlertView *alert = [[UIAlertView alloc]
                                    initWithTitle:@"Error"
-                                   message:@"Since photos may have location data attached, you must approve location data access to use the picker."
+                                   message:@"Can't access photos - please allow access via the settings app. On iOS 5, enable 'location data' for this app. On iOS 6, go to privacy and enable photo access for this app."
                                    delegate:nil
                                    cancelButtonTitle:@"OK"
                                    otherButtonTitles:nil];
@@ -302,7 +302,7 @@ NSString *const DIYAssetPickerThumbnail = @"DIYAssetPickerThumbnail";
          else {
              UIAlertView *alert = [[UIAlertView alloc]
                                    initWithTitle:@"Error"
-                                   message:@"IDK, dude, something's busted."
+                                   message:@"Something's busted."
                                    delegate:nil
                                    cancelButtonTitle:@"OK"
                                    otherButtonTitles:nil];
