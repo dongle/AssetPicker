@@ -50,5 +50,6 @@ NSString *const DIYAssetPickerThumbnail;
 
 #pragma mark - Options
 @property (nonatomic, assign) DIYAssetPickerControllerAssetType           assetType;
+@property (nonatomic, assign) ALAssetsGroupType groupType;
 
 @end
